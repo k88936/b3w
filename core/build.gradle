@@ -5,6 +5,7 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "net.onedaybeard.artemis:artemis-odb:$artemisOdbVersion"
   api "com.badlogicgames.gdx:gdx-box2d:$gdx_box2dVersion"
+  api "com.badlogicgames.gdx:gdx-box2d-utils:$gdx_box2dVersion"
   api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   if (enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"

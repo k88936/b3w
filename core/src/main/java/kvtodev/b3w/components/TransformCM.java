@@ -1,10 +1,10 @@
 package kvtodev.b3w.components;
 
 import com.artemis.PooledComponent;
-import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Affine2;
 
 public class TransformCM extends PooledComponent {
-    public transient Matrix3 transform = new Matrix3();
+    public transient Affine2 transform = new Affine2();
 
     @Override
     protected void reset() {
