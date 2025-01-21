@@ -88,7 +88,6 @@ public class Main extends ApplicationAdapter {
                 b2CreatePolygonShape(physics.bodyId, shape.asPointer(), b2Polygon.asPointer());
             }
         }
-
     }
 
 
