@@ -11,16 +11,17 @@ on linux
 ```cmd
 gradlew.bat build
 ```
-
 ## run
+* recommended using idea run config: "application'
+* or
+    on linux
+    ```shell
+    ./gradlew run
+    ```
 
-on linux
-```shell
-./gradlew run
-```
-
-on windows
-```cmd
-gradlew.bat run
-```
-
+    on windows
+    ```cmd
+    gradlew.bat run
+    ```
+## debug
+idea run config as debug: "application"
