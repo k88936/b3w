@@ -2,18 +2,20 @@ buildscript {
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
+    maven {url  "https://maven.pkg.github.com/k88936/gdx-box2d"}
     gradlePluginPortal()
     mavenLocal()
     google()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+//    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+//    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
   }
 }
 
+//configurations.all {
+//  resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+//}
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'

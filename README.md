@@ -1,15 +1,23 @@
 # b3w
 
-## build
 
-on linux
+## build
+linux
 ```shell
 ./gradlew build
 ```
+if refresh snapshot
+```shell
+./gradlew build --refresh-dependencies
+```
 
- windows
+windows
 ```cmd
 gradlew.bat build
+```
+if refresh snapshot
+```cmd
+gradlew.bat build --refresh-dependencies
 ```
 ## run
 * recommended using idea run config: "application'

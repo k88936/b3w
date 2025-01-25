@@ -28,29 +28,21 @@ import static com.badlogic.gdx.box2d.Box2d.*;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
-
-
     World world;
     private AssetManager assetManager;
-
     @Override
     public void create() {
         initialize();
-
         //use assetManager to load textures
         assetManager = new AssetManager();
         assetManager.load("libgdx.png", Texture.class);
         assetManager.finishLoading();
-
-
         //create ecs world
         WorldConfiguration config = new WorldConfigurationBuilder()
             .with(new PhysicsSystem())
             .with(new RenderSystem())
             .build();
         world = new World(config);
-
-
         //add some bodies for testing
         //show the way to create entities and components ,to create box2d bodies, to give a render logic
         RenderLogic renderLogic = new RenderLogic() {
@@ -76,8 +68,8 @@ public class Main extends ApplicationAdapter {
                 b2BodyDef bdef = b2DefaultBodyDef();
                 bdef.position().x(i);
                 bdef.position().y(j);
-                bdef.linearVelocity().x(-1f);
-                bdef.angularVelocity(1f);
+//                bdef.linearVelocity().x(-1f);
+//                bdef.angularVelocity(1f);
                 bdef.isAwake(true);
                 bdef.type(b2BodyType.b2_dynamicBody);
                 physics.isStatic = false;
