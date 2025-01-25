@@ -2,18 +2,26 @@ buildscript {
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
+    maven {
+      url = "https://maven.pkg.github.com/k88936/gdx-box2d"
+      credentials {
+        username = 'k88936'
+        password = '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'
+      }
+    }
     gradlePluginPortal()
-    mavenLocal()
     google()
+    mavenLocal()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
   }
 }
 
+//configurations.all {
+//  resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+//}
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
@@ -63,6 +71,13 @@ subprojects {
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
+    maven {
+      url = "https://maven.pkg.github.com/k88936/gdx-box2d"
+      credentials {
+        username = 'k88936'
+        password = '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'
+      }
+    }
     // You may want to remove the following line if you have errors downloading dependencies.
     mavenLocal()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
