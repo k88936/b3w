@@ -56,8 +56,8 @@ public class Main extends ApplicationAdapter {
                 _batch.draw(texReg, 0.9f, 0.9f, _transform);
             }
         };
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100 ;j++) {
                 int entity = world.create();
                 TransformCM transform = world.edit(entity).create(TransformCM.class);
 //                transform.transform.setToTranslation(0.5f,0.5f);

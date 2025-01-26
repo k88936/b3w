@@ -2,6 +2,7 @@ buildscript {
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
+    mavenLocal()
     maven {
       url = "https://maven.pkg.github.com/k88936/gdx-box2d"
       credentials {
@@ -11,7 +12,6 @@ buildscript {
     }
     gradlePluginPortal()
     google()
-    mavenLocal()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
@@ -71,6 +71,7 @@ subprojects {
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
+    mavenLocal()
     maven {
       url = "https://maven.pkg.github.com/k88936/gdx-box2d"
       credentials {
@@ -79,7 +80,6 @@ subprojects {
       }
     }
     // You may want to remove the following line if you have errors downloading dependencies.
-    mavenLocal()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }

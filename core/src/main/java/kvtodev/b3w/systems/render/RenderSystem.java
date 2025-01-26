@@ -4,6 +4,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.box2d.Box2d;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +29,11 @@ public class RenderSystem extends BaseEntitySystem implements Disposable {
     @Override
     protected void processSystem() {
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        System.out.println(viewport.getWorldHeight());
+        System.out.println(viewport.getWorldWidth());
+
+
         viewport.apply();
         // render
         batch.setProjectionMatrix(camera.combined);
