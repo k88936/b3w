@@ -28,7 +28,7 @@ import static com.badlogic.gdx.box2d.Box2d.*;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
-    World world;
+    PhysicsSystem physicsSystem;
     private AssetManager assetManager;
     @Override
     public void create() {
@@ -38,48 +38,13 @@ public class Main extends ApplicationAdapter {
         assetManager.load("libgdx.png", Texture.class);
         assetManager.finishLoading();
         //create ecs world
-        WorldConfiguration config = new WorldConfigurationBuilder()
-            .with(new PhysicsSystem())
-            .with(new RenderSystem())
-            .build();
-        world = new World(config);
+
         //add some bodies for testing
         //show the way to create entities and components ,to create box2d bodies, to give a render logic
-        RenderLogic renderLogic = new RenderLogic() {
-            private final Texture tex = assetManager.get("libgdx.png", Texture.class);
-            private final TextureRegion texReg = new TextureRegion(tex, 16, 16);
 
-            @Override
-            public void render(Affine2 _transform, SpriteBatch _batch) {
-                _transform.translate(-0.45f, -0.45f);
-                //due to the way libgdx handles texture drawing, we need to add offset to correct the center of the texture
-                _batch.draw(texReg, 0.9f, 0.9f, _transform);
-            }
-        };
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 100 ;j++) {
-                int entity = world.create();
-                TransformCM transform = world.edit(entity).create(TransformCM.class);
-//                transform.transform.setToTranslation(0.5f,0.5f);
-//                transform.transform.setToTranslation(i, j);
-                PhysicsCM physics = world.edit(entity).create(PhysicsCM.class);
-                DrawableCM drawable = world.edit(entity).create(DrawableCM.class);
+        physicsSystem= new PhysicsSystem();
 
-                b2BodyDef bdef = b2DefaultBodyDef();
-                bdef.position().x(i);
-                bdef.position().y(j);
-//                bdef.linearVelocity().x(-1f);
-//                bdef.angularVelocity(1f);
-                bdef.isAwake(true);
-                bdef.type(b2BodyType.b2_dynamicBody);
-                physics.isStatic = false;
-                drawable.renderLogic = renderLogic;
-                b2Polygon b2Polygon = b2MakeSquare(0.4f);
-                b2ShapeDef shape = b2DefaultShapeDef();
-                physics.bodyId = b2CreateBody(world.getSystem(PhysicsSystem.class).worldId, bdef.asPointer());
-                b2CreatePolygonShape(physics.bodyId, shape.asPointer(), b2Polygon.asPointer());
-            }
-        }
+
     }
 
 
@@ -87,7 +52,7 @@ public class Main extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         //where calls physics and render systems till now
-        world.process();
+        physicsSystem.processSystem();
     }
 
 }

@@ -3,12 +3,11 @@ package kvtodev.b3w.systems;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
-import com.badlogic.gdx.box2d.structs.b2AABB;
-import com.badlogic.gdx.box2d.structs.b2Transform;
-import com.badlogic.gdx.box2d.structs.b2WorldDef;
-import com.badlogic.gdx.box2d.structs.b2WorldId;
+import com.badlogic.gdx.box2d.enums.b2BodyType;
+import com.badlogic.gdx.box2d.structs.*;
 import com.badlogic.gdx.box2d.utils.Box2dWorldTaskSystem;
 import com.badlogic.gdx.utils.Disposable;
+import kvtodev.b3w.components.DrawableCM;
 import kvtodev.b3w.components.PhysicsCM;
 import kvtodev.b3w.components.TransformCM;
 
@@ -17,10 +16,10 @@ import java.util.Arrays;
 import static com.badlogic.gdx.box2d.Box2d.*;
 
 @All({TransformCM.class, PhysicsCM.class})
-public class PhysicsSystem extends BaseEntitySystem implements Disposable {
+public class PhysicsSystem {
     private static final int workerCount = 6;
     public final b2WorldId worldId;
-    private final Box2dWorldTaskSystem taskSystem;
+//    private final Box2dWorldTaskSystem taskSystem;
     public ComponentMapper<TransformCM> transformMapper;
     public ComponentMapper<PhysicsCM> physicsMapper;
 
@@ -30,15 +29,30 @@ public class PhysicsSystem extends BaseEntitySystem implements Disposable {
         worldDef.gravity().y(0);
         worldDef.enableSleep(true);
         Thread currentThread = Thread.currentThread();
-        taskSystem = Box2dWorldTaskSystem.createForWorld(worldDef, workerCount, currentThread::interrupt);
+//        taskSystem = Box2dWorldTaskSystem.createForWorld(worldDef, workerCount, currentThread::interrupt);
         worldId = b2CreateWorld(worldDef.asPointer());
+         for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100 ;j++) {
+
+                b2BodyDef bdef = b2DefaultBodyDef();
+                bdef.position().x(i);
+                bdef.position().y(j);
+//                bdef.linearVelocity().x(-1f);
+//                bdef.angularVelocity(1f);
+                bdef.isAwake(true);
+                bdef.type(b2BodyType.b2_dynamicBody);
+                b2Polygon b2Polygon = b2MakeSquare(0.5f);
+                b2ShapeDef shape = b2DefaultShapeDef();
+                b2BodyId bodyId = b2CreateBody(worldId, bdef.asPointer());
+                b2CreatePolygonShape(bodyId, shape.asPointer(), b2Polygon.asPointer());
+            }
+        }
     }
 
-    @Override
-    protected void processSystem() {
+    public void processSystem() {
 
         b2World_Step(worldId, 1 / 60f, 4);
-        taskSystem.afterStep();
+//        taskSystem.afterStep();
         b2AABB box = new b2AABB();
         box.upperBound().x(10);
         box.upperBound().y(10);
@@ -51,40 +65,7 @@ public class PhysicsSystem extends BaseEntitySystem implements Disposable {
 //        }), new VoidPointer(1));
 
 
-        Arrays.stream(subscription.getEntities().getData()).parallel().forEach(this::process);
-    }
-
-    //load data back from box2d world
-    //performance bottleneck
-    protected void process(int entityId) {
-
-        PhysicsCM physics = physicsMapper.get(entityId);
-        //some legacy code for debugging
-//        if (b2Body_GetType(physics.bodyId) == b2BodyType.b2_staticBody || !b2Body_IsAwake(physics.bodyId)) {
-//            return;
-//        }
-
-        b2Transform b2Transform = b2Body_GetTransform(physics.bodyId);
-//        System.out.println(b2Vec21.y());
-//        b2Vec2 b2Vec2 = new b2Vec2();
-//        b2Vec2.y(-10);
-//        b2Body_ApplyForce(physics.bodyId,b2Vec2,b2Vec2,true);
-        TransformCM transform = transformMapper.get(entityId);
-        transform.transform.m00 = b2Transform.q().c();
-        transform.transform.m01 = b2Transform.q().s();
-        transform.transform.m10 = -b2Transform.q().s();
-        transform.transform.m11 = b2Transform.q().c();
-        transform.transform.m02 = b2Transform.p().x();
-        transform.transform.m12 = b2Transform.p().y();
-//        System.out.println(b2Transform.p().y());
-//        System.out.println(b2Transform.q().c());
     }
 
 
-    @Override
-    public void dispose() {
-
-        b2DestroyWorld(worldId);
-        taskSystem.dispose();
-    }
 }
