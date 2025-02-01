@@ -3,15 +3,11 @@ package kvtodev.b3w.systems;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
-import com.badlogic.gdx.box2d.Box2d;
-import com.badlogic.gdx.box2d.Box2dPlus;
-import com.badlogic.gdx.box2d.structs.*;
-import com.badlogic.gdx.box2d.enums.*;
+import com.badlogic.gdx.box2d.structs.b2AABB;
+import com.badlogic.gdx.box2d.structs.b2Transform;
 import com.badlogic.gdx.box2d.structs.b2WorldDef;
 import com.badlogic.gdx.box2d.structs.b2WorldId;
 import com.badlogic.gdx.box2d.utils.Box2dWorldTaskSystem;
-import com.badlogic.gdx.jnigen.runtime.closure.ClosureObject;
-import com.badlogic.gdx.jnigen.runtime.pointer.VoidPointer;
 import com.badlogic.gdx.utils.Disposable;
 import kvtodev.b3w.components.PhysicsCM;
 import kvtodev.b3w.components.TransformCM;
@@ -43,7 +39,7 @@ public class PhysicsSystem extends BaseEntitySystem implements Disposable {
 
         b2World_Step(worldId, 1 / 60f, 4);
         taskSystem.afterStep();
-        b2AABB  box = new b2AABB();
+        b2AABB box = new b2AABB();
         box.upperBound().x(10);
         box.upperBound().y(10);
         box.lowerBound().x(-10);
@@ -54,13 +50,7 @@ public class PhysicsSystem extends BaseEntitySystem implements Disposable {
 //            return true;
 //        }), new VoidPointer(1));
 
-        Box2dPlus.b2World_OverlapViewport(worldId.getPointer(),-10,-10,10,10, ClosureObject.fromClosure(new b2OverlapResultFcn() {
-            @Override
-            public boolean b2OverlapResultFcn_call(b2ShapeId id, VoidPointer context) {
-                System.out.println(6);
-                return true;
-            }
-        }).getPointer(),5);
+
         Arrays.stream(subscription.getEntities().getData()).parallel().forEach(this::process);
     }
 
